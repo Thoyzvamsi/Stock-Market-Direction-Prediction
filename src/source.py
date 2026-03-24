@@ -2,39 +2,15 @@ import yfinance as yf
 import pandas as pd
 
 class Raw_data:
+    def __init__(self,tickers ):
+        self.tickers = tickers
+        
     def Get_data(self):
         dt = yf.download("TCS.NS",start="2024-01-01")
 
-        tickers = [
-            "RELIANCE.NS",
-            "TCS.NS",
-            "INFY.NS",
-            "HDFCBANK.NS",
-            "ICICIBANK.NS",
-            "AXISBANK.NS",
-            "KOTAKBANK.NS",
-            "HCLTECH.NS",
-            "TECHM.NS",
-            "SUNPHARMA.NS",
-            "CIPLA.NS",
-            "PIDILITIND.NS",
-            "COLPAL.NS",
-            "BHARTIARTL.NS",
-            "LT.NS",
-            "MARUTI.NS",
-            "ITC.NS,"
-            "HINDUNILVR.NS",
-            "ULTRACEMCO.NS",
-            "POWERGRID.NS",
-            "NTPC.NS",
-            "SBIN.NS",
-            "DIVISLAB.NS",
-            "BAJAJ-AUTO.NS"
-        ]
-
         clean_list = []
 
-        for ticker in tickers:
+        for ticker in self.tickers:
             df = yf.download(
                 ticker,
                 start="2010-01-01",
