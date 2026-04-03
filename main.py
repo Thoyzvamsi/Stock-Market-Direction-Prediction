@@ -3,7 +3,6 @@ from notebook.feature_engineering import Processed_Data
 from notebook.logistic_reg import Logistic_regression
 
 tickers = [
-
                     "RELIANCE.NS",
                     "TCS.NS",
                     "INFY.NS",
@@ -28,36 +27,15 @@ tickers = [
                     "SBIN.NS",
                     "DIVISLAB.NS",
                     "BAJAJ-AUTO.NS"
-
         ]
 
 raw_data = Raw_data(tickers)
 Raw_Data_path = raw_data.Get_data()
 
 Processedd_Data = Processed_Data(Raw_Data_path)
-Processed_Data_Path = Processedd_Data.Processesing_data()
+Processed_Data_Path = Processedd_Data.Processesing_data_2()
 
 Model_Fitting = Logistic_regression(Processed_Data_Path)
 Accuracy = Model_Fitting.Logistic_Reg()
 
 print(f" Accuracy : {Accuracy}")
-
-
-#For multiple sectors
-
-'''
-from src.multiple_sectors import Tickers
-
-sectors = Tickers().tickers_with_sectors()
-for tickers in sectors:
-raw_data = Raw_data(tickers)
-Raw_Data_path = raw_data.Get_data()
-
-Processedd_Data = Processed_Data(Raw_Data_path)
-Processed_Data_Path = Processedd_Data.Processesing_data()
-
-Model_Fitting = Logistic_regression(Processed_Data_Path)
-Accuracy = Model_Fitting.Logistic_Reg()
-
-print(f"Sector : {tickers} and Accuracy : {Accuracy}")
-'''

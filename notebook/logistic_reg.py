@@ -9,7 +9,7 @@ class Logistic_regression:
     def Logistic_Reg(self):
         data = pd.read_csv(self.Processed_Data_Path)
 
-        features = ["RSI","ema_14_dis","ema_25_dis","ema_spread"]
+        features = ["Returns","Volatility_ratio","Acceleration","Volume_spike","Position"]
         target = "Target"
 
         X = data[features]

@@ -1,40 +1,85 @@
-# Requrements :
-1 . Profitable trading model or stretagy
-2 . winrate more than 52%
-3 . Tested and Trained on very large datasets Mid cap and Large cap stocks
+📈 Stock Market Direction Prediction using Logistic Regression
 
-# Data Set Used
- Stocks Date used for training are Large and Mid cap stocks for stability
+1. Problem Statement
+The objective of this project is to evaluate whether historical market data and technical indicators can be used to predict the next-day stock price direction (Up/Down).
 
-# Iteration 1
-# Features for logistic regression :
-for now i am thinking about 4 of them
-1. RSI
-2. ema_25_distance = (price - ema_25)/ema25
-3. ema_50_distance = (price - ema_50)/ema50
-4. ema_spread = (EMA25 - EMA50) / EMA50
-5. Target = next day price Up(1) or Down(0) 
+This is treated as a binary classification problem, but with awareness that financial markets are noisy and difficult to predict.
 
-# Problems Faced:
-1. I selected target as if last day price is lower than today's 1 if not the 0
-   instead of setting target if next day is up then 1 if not 0
+2. Hypothesis
+Technical indicators such as momentum, volatility, and volume contain predictive signals that can be used to forecast short-term price direction.
 
-2. one of the first problem i faced is Model is just predicting majority class
-   and 61% accuracy (i got very much excited after seeing the accuracy) Because
-   (Probability Distribution : mean , min , max :0.5000619225268386 0.4987903185671936 0.5008517493880529 ) 
-   the values are very near to 50 so what does model do if proba > 0.5 = 1 
+3. Dataset
+Source: Yahoo Finance (via yfinance)
+Stocks: Large-cap and mid-cap Indian stocks
+Time Period: 2010 – 2025
+Frequency: Daily (OHLCV)
 
-# Iteration 2
-# Features for logistic regression :
-  Same as the last iteraion
+4. Data Pipeline
+The project is structured into three main stages:
 
-# Problems Faced:
-1. The indicators i am using currently (RSI ,ema_25_distance ,ema_50_distance ,ema_spread )
-   are laggy because high usage of them and got 49% accuracy
+4.1 Data Collection
+Multi-stock data fetched using yfinance
+Cleaned and merged into a single dataset
+Stored as Raw_data.csv
 
-2. running every cell manually will be exhustive even if they are experiments 
-   so created pipelines to run every moving part automatically 
+4.2 Feature Engineering
+Features are computed per ticker using rolling windows and transformations:
 
+Returns: Daily percentage change
+Volatility Ratio: Short-term vs long-term volatility
+Momentum: 5-day price change
+Acceleration: Change in momentum
+Volume Spike: Volume relative to rolling average
+Position: Price position within recent high-low range
+4.3 Target Variable
+1 → Next day price is higher
+0 → Otherwise
 
-# it is an iterative process so we do it again and again until the accuracy got to the point i imagined
+5. Model
+Algorithm: Logistic Regression
+Class Handling: class_weight="balanced"
+Train/Test Split: 80% / 20% (time-based)
+Decision Threshold: 0.6 (manually set)
 
+6. Results
+Accuracy: ~48%
+Model predictions are concentrated near probability = 0.5
+The model fails to outperform a random baseline
+
+7. Observations
+The model tends to output probabilities close to 0.5, indicating low confidence and weak signal
+Logistic Regression struggles to capture patterns in financial time series
+Technical indicators alone do not provide sufficient predictive power for direction
+
+8. Failure Analysis
+This experiment highlights several key issues:
+
+Low Signal-to-Noise Ratio
+Market movements are highly noisy and difficult to model
+Linear Model Limitation
+Logistic Regression cannot capture non-linear relationships in market data
+Feature Weakness
+Selected indicators do not contain strong directional information
+Evaluation Limitation
+Accuracy alone is not sufficient for trading problems
+
+9. Key Insight
+The model converges to near-random predictions, indicating a lack of exploitable linear signal in the chosen features for next-day direction prediction.
+
+10. Limitations
+No feature scaling applied
+No hyperparameter tuning
+Multiple tickers combined without encoding
+No financial evaluation (PnL, Sharpe ratio, etc.)
+Fixed decision threshold without validation
+
+11. Conclusion
+This experiment demonstrates that:
+
+Predicting stock direction using simple linear models is extremely challenging
+Standard technical indicators do not provide a reliable edge in isolation
+Proper evaluation in trading requires more than classification accuracy
+
+🔥 Final Note:
+This is not a successful prediction model —
+This is a validated failure that reveals the difficulty of extracting signal from financial markets.
