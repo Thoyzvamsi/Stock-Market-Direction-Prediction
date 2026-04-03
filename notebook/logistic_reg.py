@@ -1,5 +1,8 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
+
 import pandas as pd
 
 class Logistic_regression:
@@ -30,6 +33,11 @@ class Logistic_regression:
 
         proba = model.predict_proba(X_test)[:, 1]
 
-        y_pred = (proba > 0.6).astype(int)
+        y_pred = (proba > 0.5).astype(int)
 
-        return accuracy_score(y_test, y_pred)
+        accuracy = accuracy_score(y_test, y_pred)
+        cm = confusion_matrix(y_test, y_pred)
+        Classification_report = classification_report(y_test, y_pred)
+        
+
+        return  accuracy,cm,Classification_report

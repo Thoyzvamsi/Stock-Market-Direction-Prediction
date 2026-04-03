@@ -36,6 +36,10 @@ Processedd_Data = Processed_Data(Raw_Data_path)
 Processed_Data_Path = Processedd_Data.Processesing_data_2()
 
 Model_Fitting = Logistic_regression(Processed_Data_Path)
-Accuracy = Model_Fitting.Logistic_Reg()
+accuracy,cm,Classification_report = Model_Fitting.Logistic_Reg()
 
-print(f" Accuracy : {Accuracy}")
+print("Accuracy :",accuracy)
+print("cm :", cm)
+print("cf :", Classification_report)
+
+
